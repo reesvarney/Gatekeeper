@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Defence : MonoBehaviour
@@ -11,12 +12,13 @@ public class Defence : MonoBehaviour
     public float enemyTargettingChance = 1f;
     public int cost = 10;
     public int maxLevel = 3;
-    public static int baseHealth = 100;
+    public int baseHealth = 100;
     public TileBase tile;
     public string displayName = "";
     public string displayHint = "";
     public string keySelector = "";
     public bool buildsOnWalls = true;
+    public GameObject healthBar;
     [HideInInspector] public GameObject gameObj;
 
     public Dictionary<Vector3, gameInstance> gameInstances = new Dictionary<Vector3, gameInstance>();
@@ -27,11 +29,14 @@ public class Defence : MonoBehaviour
 
     public class gameInstance{
         public static int level = 1;
-        public static int health = baseHealth;
+        public int health;
         public Vector3Int tilePos;
         public Vector3 worldPos;
         public GameObject gameObject;
         public CircleCollider2D triggerCollider;
+        public GameObject instanceHealthBar;
+        public Slider instanceHealthBarSlider;
+        public GameObject defenceCanvas;
         public bool isOnWall = false;
         public Defence prefab;
 
@@ -40,10 +45,26 @@ public class Defence : MonoBehaviour
             tilePos = temp_tilePos;
             worldPos = temp_worldPos;
             prefab = defencePrefab;
+            health = defencePrefab.baseHealth;
             gameObject = new GameObject();
             gameObject.transform.parent = prefab.gameObject.transform;
             gameObject.transform.position = worldPos;
             gameObject.tag = "Defence";
+
+            defenceCanvas = new GameObject();
+            defenceCanvas.transform.SetParent(gameObject.transform, false);
+            defenceCanvas.AddComponent<Canvas>();
+            defenceCanvas.AddComponent<CanvasScaler>();
+            defenceCanvas.AddComponent<GraphicRaycaster>();
+            defenceCanvas.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
+            defenceCanvas.GetComponent<Canvas>().sortingLayerName = "UI";
+            
+            instanceHealthBar = Instantiate(defencePrefab.healthBar, new Vector2(0, 0.2f), Quaternion.identity);
+            instanceHealthBar.transform.SetParent(defenceCanvas.transform, false);
+            instanceHealthBarSlider = instanceHealthBar.GetComponent<Slider>();
+            instanceHealthBarSlider.maxValue = health;
+            instanceHealthBarSlider.value = health;
+
             triggerCollider = gameObject.AddComponent(typeof(CircleCollider2D)) as CircleCollider2D;
             triggerCollider.radius = prefab.enemyTargettingRange;
             triggerCollider.isTrigger = true;
@@ -52,7 +73,8 @@ public class Defence : MonoBehaviour
 
         public bool dealDamage(int damage){
             health -= damage;
-            if(health < 0){
+            instanceHealthBarSlider.value = health;
+            if(health <= 0){
                 prefab.onDestroy(worldPos);
                 return true;
             }

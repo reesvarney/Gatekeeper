@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour
     public float attackRate = 3f;
     public int damage = 5;
     public float nextWaypointDistance = 3f;
+    Animator animator;
 
     Path path;
     int currentWaypoint;
@@ -30,6 +31,7 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = gameObject.GetComponentInChildren(typeof(Animator)) as Animator;
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -52,8 +54,17 @@ public class EnemyAI : MonoBehaviour
 
     void OnTriggerEnter2D (Collider2D other)
     {
-        // if is Player, 50% chance to target player and attack
-        // Should then check player distance on update and switch back to primary objective if its over x distance
+        checkAttack(other);
+    }
+
+    void OnTriggerStay2D (Collider2D other)
+    {
+        if(!engaged){
+            checkAttack(other);
+        }
+    }
+
+    public void checkAttack(Collider2D other){
         if(other.gameObject.tag == "Defence"){
             var defence = other.transform.parent.gameObject.GetComponent<Defence>();
             Vector3 defencePos = other.transform.position;
@@ -77,10 +88,12 @@ public class EnemyAI : MonoBehaviour
         engaged = true;
         currentTarget = newTarget;
         InvokeRepeating("attackCycle", attackRate, attackRate);
+        animator.SetBool("isAttacking", true);
     }
 
     void stopAttackCycle(){
         CancelInvoke("attackCycle");
+        animator.SetBool("isAttacking", false);
         engaged = false;
     }
 
@@ -118,6 +131,12 @@ public class EnemyAI : MonoBehaviour
                 finishedPath = false;
                 moveOnPath();
             }
+        }
+
+        if(rb.velocity.magnitude > 0.1){
+            animator.SetBool("isMoving", true);
+        } else {
+            animator.SetBool("isMoving", false);
         }
     }
 }
