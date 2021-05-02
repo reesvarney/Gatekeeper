@@ -2230,4 +2230,6 @@ ScriptedImporter:
   textureAssetName: knight Texture
   prefabAssetName: knight Prefab
   spriteLibAssetName: knight Sprite Lib
-  secondarySpriteTextures: []
+  secondarySpriteTextures:
+  - name: _Emission
+    texture: {fileID: -4688284898043247684, guid: 55afa563f47d92144aeab94854889d57, type: 3}

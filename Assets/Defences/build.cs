@@ -11,13 +11,15 @@ public class build : MonoBehaviour
     public Tilemap highlightTiles;
     public Tilemap defencePreviewTiles;
     public Tilemap defenceTiles;
+    public Tilemap unbuildableTiles;
     public TileBase highlightTileGreen;
     public TileBase highlightTileRed;
     public bool buildModeEnabled = false;
+    public bool sellModeEnabled = false;
     private Vector3Int currentTile;
     private bool canBuildOnTile;
     private Defence currentDefenceType;
-
+    public Dictionary<Vector3, dynamic> globalGameInstances = new Dictionary<Vector3, dynamic>();
     public static build Controller { get; set; }
 
     void Awake()
@@ -35,13 +37,19 @@ public class build : MonoBehaviour
 
             if(Input.GetMouseButtonDown(0) && canBuildOnTile){
                 defenceTiles.SetTile(currentTile, currentDefenceType.tile);
-                currentDefenceType._onBuild(currentTile, defenceTiles.CellToWorld(currentTile), wallTiles.HasTile(currentTile));
+                var newGameInstance = currentDefenceType._onBuild(currentTile, defenceTiles.CellToWorld(currentTile), wallTiles.HasTile(currentTile));
+                globalGameInstances.Add(newGameInstance.worldPos, newGameInstance);
             }
+        }
+        if(sellModeEnabled == true){
+
         }
     }
 
-    public void removeDefenceTile(Vector3Int destroyedPos){
-        defenceTiles.SetTile(destroyedPos, null);
+    public void removeDefenceTile(Vector3 destroyedPos){
+        var destroyedTile = buildTiles.WorldToCell(destroyedPos);
+        defenceTiles.SetTile(destroyedTile, null);
+        globalGameInstances.Remove(destroyedPos);
     }
 
     public void toggleBuildMode(Defence defenceType){
@@ -67,9 +75,9 @@ public class build : MonoBehaviour
     bool tileBuildable(Vector3Int tilePos){
         bool canBuild;
         if(currentDefenceType.buildsOnWalls == true){
-            canBuild = !wallTiles.HasTile(tilePos) || buildTiles.HasTile(tilePos);
+            canBuild = !(wallTiles.HasTile(tilePos) || unbuildableTiles.HasTile(tilePos)) || buildTiles.HasTile(tilePos);
         } else {
-            canBuild = !wallTiles.HasTile(tilePos);
+            canBuild = !(wallTiles.HasTile(tilePos) || unbuildableTiles.HasTile(tilePos));
         }
         return canBuild;
     }

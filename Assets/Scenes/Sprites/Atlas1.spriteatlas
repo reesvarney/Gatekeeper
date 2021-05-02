@@ -45,7 +45,10 @@ SpriteAtlas:
     packables:
     - {fileID: 2800000, guid: cf320b81da2367f49b12fd9610b8b623, type: 3}
     - {fileID: 2800000, guid: 2ff007b4b34571e478fd1c04a4dc1615, type: 3}
-    totalSpriteSurfaceArea: 125952
+    - {fileID: 2800000, guid: 88681f45cd7701844b38c892cff39d60, type: 3}
+    - {fileID: 2800000, guid: f7c334f0a7c74d8448c468e1504cb63b, type: 3}
+    - {fileID: 2800000, guid: 1d31f5f21feac754a814c3b4446ba47b, type: 3}
+    totalSpriteSurfaceArea: 249856
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -74,6 +77,7 @@ SpriteAtlas:
   - {fileID: 3596951920826154220, guid: cf320b81da2367f49b12fd9610b8b623, type: 3}
   - {fileID: 2937849406781047536, guid: cf320b81da2367f49b12fd9610b8b623, type: 3}
   - {fileID: -674365099278563466, guid: cf320b81da2367f49b12fd9610b8b623, type: 3}
+  - {fileID: 21300000, guid: 1d31f5f21feac754a814c3b4446ba47b, type: 3}
   - {fileID: -4954369765903962290, guid: 2ff007b4b34571e478fd1c04a4dc1615, type: 3}
   - {fileID: -6023555733352806269, guid: 2ff007b4b34571e478fd1c04a4dc1615, type: 3}
   - {fileID: -8894122241839933156, guid: 2ff007b4b34571e478fd1c04a4dc1615, type: 3}
@@ -174,6 +178,12 @@ SpriteAtlas:
   - {fileID: 2157240733274199957, guid: 2ff007b4b34571e478fd1c04a4dc1615, type: 3}
   - {fileID: -1530080802165054831, guid: 2ff007b4b34571e478fd1c04a4dc1615, type: 3}
   - {fileID: -7708644975649761358, guid: 2ff007b4b34571e478fd1c04a4dc1615, type: 3}
+  - {fileID: 21300000, guid: f7c334f0a7c74d8448c468e1504cb63b, type: 3}
+  - {fileID: -7162135411651223431, guid: 88681f45cd7701844b38c892cff39d60, type: 3}
+  - {fileID: 3262358802219274949, guid: 88681f45cd7701844b38c892cff39d60, type: 3}
+  - {fileID: -4014756138248188325, guid: 88681f45cd7701844b38c892cff39d60, type: 3}
+  - {fileID: -695070472386317175, guid: 88681f45cd7701844b38c892cff39d60, type: 3}
+  - {fileID: 468578942120226538, guid: 88681f45cd7701844b38c892cff39d60, type: 3}
   m_PackedSpriteNamesToIndex:
   - walls_7
   - walls_6
@@ -198,6 +208,7 @@ SpriteAtlas:
   - walls_22
   - walls_21
   - walls_20
+  - overlays
   - tiles_81
   - tiles_80
   - tiles_83
@@ -298,6 +309,12 @@ SpriteAtlas:
   - tiles_4
   - tiles_9
   - tiles_8
+  - objective
+  - defences_4
+  - defences_1
+  - defences_0
+  - defences_3
+  - defences_2
   m_RenderDataMap: {}
   m_Tag: Atlas1
   m_IsVariant: 0

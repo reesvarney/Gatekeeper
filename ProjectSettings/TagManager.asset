@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Defence
   - Enemy
+  - Objective
+  - Walls
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - Obstacle
   - Enemies
   - Barriers
-  - 
-  - 
+  - Objective
+  - PlayerClips
   - 
   - 
   - 

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class health : MonoBehaviour
 {
-    public int currentHealth = 100;
+    public int baseHealth = 100;
+    public int currentHealth;
 
     public void setHealth(int healthSet){
         if(healthSet <= 0){
@@ -16,9 +17,16 @@ public class health : MonoBehaviour
         currentHealth = healthSet;
     }
 
-    public void dealDamage(int damageDealt){
+    public bool dealDamage(int damageDealt){
         var newHealth = currentHealth - damageDealt;
         setHealth(newHealth);
+        return (newHealth <= 0);
+    }
+
+    public bool heal(int healthAdded){
+        var newHealth = currentHealth += healthAdded;
+        setHealth(newHealth);
+        return (newHealth <= 0);
     }
 
     public void destroy(){
@@ -36,7 +44,7 @@ public class health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        setHealth(baseHealth);
     }
 
     // Update is called once per frame

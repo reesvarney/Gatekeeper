@@ -5,8 +5,9 @@ using Pathfinding;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform targetLocation;
-    public float speed = 5f;
+    public GameObject ultimateTarget;
+    public float baseSpeed = 10f;
+    public float currentSpeed = 10f;
     public float attackRate = 3f;
     public int damage = 5;
     public float nextWaypointDistance = 3f;
@@ -20,13 +21,18 @@ public class EnemyAI : MonoBehaviour
     Rigidbody2D rb;
     public Transform player;
 
-    private bool engageDefences = false;
+    public bool engageDefences = false;
+    public bool engagePlayer = false;
     public bool canTargetHigh = false;
+
     private bool engaged = false;
+    private bool attacking = false;
+
     public float targetAttackRange = 1f;
     public float targetFollowRange = 2f;
 
     private dynamic currentTarget;
+    private GameObject targetGameObject;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +41,9 @@ public class EnemyAI : MonoBehaviour
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
 
-        seeker.StartPath(rb.position, targetLocation.position, OnPathComplete);
+        currentTarget = ultimateTarget;
+
+        seeker.StartPath(rb.position, ultimateTarget.transform.position, OnPathComplete);
         
         Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), GetComponent<Collider2D>());
 
@@ -43,6 +51,12 @@ public class EnemyAI : MonoBehaviour
             // 50% chance that this enemy will target non-blocking defences
             engageDefences = true;
         }
+        if(Random.value < 0.75f){
+            // 75% chance that this enemy will target player
+            engagePlayer = true;
+        }
+
+        InvokeRepeating("checkAttack", 5f, 5f);
     }
 
     void OnPathComplete(Path newPath){
@@ -52,67 +66,105 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D (Collider2D other)
+    public GameObject FindClosestDefence()
     {
-        checkAttack(other);
-    }
-
-    void OnTriggerStay2D (Collider2D other)
-    {
-        if(!engaged){
-            checkAttack(other);
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Defence");
+        GameObject closest = null;
+        float distance = targetFollowRange;
+        foreach (GameObject go in gos)
+        {
+            float curDistance = Vector2.Distance(go.transform.position, transform.position);
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
         }
+        return closest;
     }
 
-    public void checkAttack(Collider2D other){
-        if(other.gameObject.tag == "Defence"){
-            var defence = other.transform.parent.gameObject.GetComponent<Defence>();
-            Vector3 defencePos = other.transform.position;
-            var defenceInstance = defence.gameInstances[defencePos];
-
-            if(!engaged && (!defenceInstance.isOnWall || canTargetHigh)){
-                if(rb.velocity.magnitude < 0.05f){
-                    // If blocked by defence, always attack
-                    attackObject(defenceInstance);
-                } else {
-                    // Attack according to attack chance
-                    if(engageDefences){
-                        attackObject(defenceInstance);
+    public void checkAttack(){
+        if(engaged == false && (engageDefences || rb.velocity.magnitude < 0.05f)){
+            var closestDefence = FindClosestDefence();
+            if(closestDefence != null){
+                var defence = closestDefence.transform.parent.gameObject.GetComponent<Defence>();
+                Vector3 defencePos = closestDefence.transform.position;
+                if(defence.gameInstances.ContainsKey(defencePos)){
+                    var defenceInstance = defence.gameInstances[defencePos];
+                    if(!defenceInstance.isOnWall || canTargetHigh){
+                        engageObject(defenceInstance);
                     }
                 }
             }
         }
+        
+        if(engaged == false && (engagePlayer &&  Vector2.Distance(player.position, transform.position) < targetFollowRange)){
+            var playerHealth = player.gameObject.GetComponent<health>();
+            engageObject(playerHealth);
+        }
+        
+        if(engaged == false && (Vector2.Distance(ultimateTarget.transform.position, transform.position) < targetAttackRange)){
+            var objective = ultimateTarget.GetComponent<health>();
+            engageObject(objective);
+        }
     }
 
-    void attackObject(dynamic newTarget){
-        engaged = true;
-        currentTarget = newTarget;
-        InvokeRepeating("attackCycle", attackRate, attackRate);
+    void startAttackCycle(){
+        attacking = true;
+        Debug.Log("Starting attack");
+        InvokeRepeating("attackCycle", 0f, attackRate);
         animator.SetBool("isAttacking", true);
     }
 
     void stopAttackCycle(){
+        attacking = false;
         CancelInvoke("attackCycle");
         animator.SetBool("isAttacking", false);
+    }
+
+    void engageObject(dynamic newTarget){
+        engaged = true;
+        path = null;
+        CancelInvoke("attackCycle");
+        CancelInvoke("trackObject");
+        currentTarget = newTarget;
+        targetGameObject = currentTarget.gameObject;
+        InvokeRepeating("trackObject", 0f, 2f);
+    }
+
+    void trackObject(){
+        seeker.StartPath(rb.position, targetGameObject.transform.position, OnPathComplete);
+        if(Vector2.Distance(targetGameObject.transform.position, transform.position) < targetAttackRange){
+            if(!attacking){
+                startAttackCycle();
+            }
+        } else if(Vector2.Distance(currentTarget.gameObject.transform.position, transform.position) > targetFollowRange){
+            disengageObject();
+        } else if(attacking){
+            stopAttackCycle();
+        }
+    }
+
+    void disengageObject(){
         engaged = false;
+        stopAttackCycle();
+        CancelInvoke("trackObject");
+        seeker.StartPath(rb.position, ultimateTarget.transform.position, OnPathComplete);
+        checkAttack();
     }
 
     void attackCycle(){
-        // Check is in range of target
-        var distanceToTarget = Vector3.Distance(currentTarget.gameObject.transform.position, transform.position);
-        if(distanceToTarget < targetAttackRange){
-            bool destroyed = currentTarget.dealDamage(damage);
-            if(destroyed){
-                stopAttackCycle();
-            }
+        bool destroyed = currentTarget.dealDamage(damage);
+        if(destroyed){
+            Debug.Log("Destroyed");
+            disengageObject();
         }
-
-        // Play attack animation
     }
 
     void moveOnPath(){
         Vector2 intendedDirection = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        Vector2 intendedForce = intendedDirection * speed * Time.deltaTime;
+        Vector2 intendedForce = intendedDirection * currentSpeed * Time.deltaTime;
         rb.AddForce(intendedForce);
 
         float currentWaypointDistance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
@@ -125,10 +177,7 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         if(!(path == null)){
-            if(currentWaypoint >= path.vectorPath.Count){
-                finishedPath = true;
-            } else {
-                finishedPath = false;
+            if(!(currentWaypoint >= path.vectorPath.Count)){
                 moveOnPath();
             }
         }
@@ -137,6 +186,9 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("isMoving", true);
         } else {
             animator.SetBool("isMoving", false);
+            if(!engaged){
+                checkAttack();
+            }
         }
     }
 }
