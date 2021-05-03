@@ -10,7 +10,11 @@ public class EnemyAI : MonoBehaviour
     public float currentSpeed = 10f;
     public float attackRate = 3f;
     public int damage = 5;
-    public float nextWaypointDistance = 3f;
+    public float nextWaypointDistance = 1f;
+
+    public float targetPlayerChance = 0.33f;
+    public float targetDefenceChance = 0.33f;
+
     Animator animator;
 
     Path path;
@@ -43,15 +47,15 @@ public class EnemyAI : MonoBehaviour
 
         currentTarget = ultimateTarget;
 
-        seeker.StartPath(rb.position, ultimateTarget.transform.position, OnPathComplete);
+        setPath(ultimateTarget.transform.position);
         
         Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), GetComponent<Collider2D>());
 
-        if(Random.value < 0.5f){
+        if(Random.value < targetDefenceChance){
             // 50% chance that this enemy will target non-blocking defences
             engageDefences = true;
         }
-        if(Random.value < 0.75f){
+        if(Random.value < targetPlayerChance){
             // 75% chance that this enemy will target player
             engagePlayer = true;
         }
@@ -64,6 +68,15 @@ public class EnemyAI : MonoBehaviour
             path = newPath;
             currentWaypoint = 0;
         }
+    }
+
+    private IEnumerator setPathAsync(Vector3 position){
+        seeker.StartPath(rb.position, position, OnPathComplete);
+        yield break;
+    }
+
+    public void setPath(Vector3 position){
+        StartCoroutine(setPathAsync(position));
     }
 
     public GameObject FindClosestDefence()
@@ -112,7 +125,6 @@ public class EnemyAI : MonoBehaviour
 
     void startAttackCycle(){
         attacking = true;
-        Debug.Log("Starting attack");
         InvokeRepeating("attackCycle", 0f, attackRate);
         animator.SetBool("isAttacking", true);
     }
@@ -134,7 +146,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     void trackObject(){
-        seeker.StartPath(rb.position, targetGameObject.transform.position, OnPathComplete);
+        setPath(targetGameObject.transform.position);
         if(Vector2.Distance(targetGameObject.transform.position, transform.position) < targetAttackRange){
             if(!attacking){
                 startAttackCycle();
@@ -150,7 +162,7 @@ public class EnemyAI : MonoBehaviour
         engaged = false;
         stopAttackCycle();
         CancelInvoke("trackObject");
-        seeker.StartPath(rb.position, ultimateTarget.transform.position, OnPathComplete);
+        setPath(ultimateTarget.transform.position);
         checkAttack();
     }
 

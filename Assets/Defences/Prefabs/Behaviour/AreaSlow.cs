@@ -6,7 +6,7 @@ public class AreaSlow : Defence
 {
   public override void enemyEffect(GameObject detected){
     var enemy = detected.GetComponent<EnemyAI>();
-    enemy.currentSpeed = enemy.baseSpeed / 2;
+    enemy.currentSpeed = enemy.baseSpeed / 5;
   }
 
   public override void enemyLeaveEffect(GameObject detected){

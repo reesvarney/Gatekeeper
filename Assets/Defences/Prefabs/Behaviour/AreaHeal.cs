@@ -11,6 +11,8 @@ public class AreaHeal : Defence
     }
 
     public override void defenceEffect(gameInstance detected){
-      detected.heal(healAmount);
+      if(detected.health != detected.levelHealth){
+        detected.heal(healAmount);
+      }
     }
 }

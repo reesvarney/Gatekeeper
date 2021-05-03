@@ -5,7 +5,8 @@ using UnityEngine;
 public class gameInstanceBehaviour : MonoBehaviour
 {
 
-    public Dictionary<int, IEnumerator> targets = new Dictionary<int, IEnumerator>();
+    public Dictionary<string, IEnumerator> targets = new Dictionary<string, IEnumerator>();
+    public IEnumerator constantLoop;
     public bool ready = false;
     private Defence defencePrefab;
 
@@ -33,9 +34,18 @@ public class gameInstanceBehaviour : MonoBehaviour
         }
     }
 
+    private IEnumerator onConstant(){
+        while (true){
+            yield return new WaitForSeconds(defencePrefab.effectRate);
+            defencePrefab.genericEffect();
+        }
+    }
+
     public void setDefence(Defence temp_defencePrefab){
         defencePrefab = temp_defencePrefab;
         ready = true;
+        constantLoop = onConstant();
+        StartCoroutine(onConstant());
     }
 
     void OnTriggerEnter2D (Collider2D other)
@@ -49,7 +59,7 @@ public class gameInstanceBehaviour : MonoBehaviour
     }
 
     void OnTriggerExit2D (Collider2D other){
-        var key = other.gameObject.GetInstanceID();
+        var key = other.gameObject.name;
         if(targets.ContainsKey(key)){
             StopCoroutine(targets[key]);
             targets.Remove(key);
@@ -67,13 +77,15 @@ public class gameInstanceBehaviour : MonoBehaviour
     }
 
     public void checkAction(Collider2D other){
-        var otherId = other.gameObject.GetInstanceID();
+        var otherId = other.gameObject.name;
         if(ready && !targets.ContainsKey(otherId)){
             switch (other.gameObject.tag){
                 case "Enemy":
+                    defencePrefab.enemyEnterEffect(other.gameObject);
                     targets.Add(otherId, onEnemy(other.gameObject));
                     break;
                 case "Player":
+                    defencePrefab.playerEnterEffect(other.gameObject);
                     targets.Add(otherId, onPlayer(other.gameObject));
                     break;
                 case "Defence":
