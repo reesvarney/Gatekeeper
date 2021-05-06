@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Objective
   - Walls
+  - Secondary Cameras
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Barriers
   - Objective
   - PlayerClips
-  - 
+  - Minimap Only
   - 
   - 
   - 
@@ -47,6 +48,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 2144671867
+    locked: 0
+  - name: Minimap
+    uniqueID: 3812653191
     locked: 0
   - name: Enemies
     uniqueID: 2798011657

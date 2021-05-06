@@ -14,6 +14,8 @@ public class EnemyAI : MonoBehaviour
 
     public float targetPlayerChance = 0.33f;
     public float targetDefenceChance = 0.33f;
+    
+    public int spawnRate = 1;
 
     Animator animator;
 
@@ -117,7 +119,7 @@ public class EnemyAI : MonoBehaviour
             engageObject(playerHealth);
         }
         
-        if(engaged == false && (Vector2.Distance(ultimateTarget.transform.position, transform.position) < targetAttackRange)){
+        if(engaged == false && (Vector2.Distance(ultimateTarget.transform.position, transform.position) < (targetAttackRange + 1))){
             var objective = ultimateTarget.GetComponent<health>();
             engageObject(objective);
         }
@@ -125,7 +127,7 @@ public class EnemyAI : MonoBehaviour
 
     void startAttackCycle(){
         attacking = true;
-        InvokeRepeating("attackCycle", 0f, attackRate);
+        InvokeRepeating("attackCycle", attackRate, attackRate);
         animator.SetBool("isAttacking", true);
     }
 
@@ -146,15 +148,23 @@ public class EnemyAI : MonoBehaviour
     }
 
     void trackObject(){
-        setPath(targetGameObject.transform.position);
-        if(Vector2.Distance(targetGameObject.transform.position, transform.position) < targetAttackRange){
-            if(!attacking){
-                startAttackCycle();
-            }
-        } else if(Vector2.Distance(currentTarget.gameObject.transform.position, transform.position) > targetFollowRange){
+        if(targetGameObject == null){
             disengageObject();
-        } else if(attacking){
-            stopAttackCycle();
+        } else {
+            setPath(targetGameObject.transform.position);
+            var attackRange = targetAttackRange;
+            if(targetGameObject == ultimateTarget){
+                attackRange += 1;
+            }
+            if(Vector2.Distance(targetGameObject.transform.position, transform.position) < attackRange){
+                if(!attacking){
+                    startAttackCycle();
+                }
+            } else if(Vector2.Distance(currentTarget.gameObject.transform.position, transform.position) > targetFollowRange){
+                disengageObject();
+            } else if(attacking){
+                stopAttackCycle();
+            }
         }
     }
 
@@ -167,10 +177,14 @@ public class EnemyAI : MonoBehaviour
     }
 
     void attackCycle(){
-        bool destroyed = currentTarget.dealDamage(damage);
-        if(destroyed){
-            Debug.Log("Destroyed");
+        if(currentTarget == null){
             disengageObject();
+        } else {
+            bool destroyed = currentTarget.dealDamage(damage);
+            if(destroyed){
+                Debug.Log("Destroyed");
+                disengageObject();
+            }
         }
     }
 

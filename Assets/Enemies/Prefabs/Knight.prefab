@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 255014221}
   - component: {fileID: 255014222}
-  m_Layer: 2
+  m_Layer: 9
   m_Name: TargetingTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,11 +25,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 255014220}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3948869455063486582}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &255014222
 CircleCollider2D:
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 885943123}
   - component: {fileID: 885943122}
   - component: {fileID: 885943121}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CharacterUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ RectTransform:
   m_Children:
   - {fileID: 5484063986002188979}
   m_Father: {fileID: 3948869455063486582}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 1062734067}
   - component: {fileID: 1062734070}
   - component: {fileID: 681424049}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Knight
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -179,6 +179,7 @@ Transform:
   m_LocalPosition: {x: 1.2350681, y: 13.417128, z: -1.3604147}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7834496056837491405}
   - {fileID: 5484063985301104258}
   - {fileID: 255014221}
   - {fileID: 885943120}
@@ -219,8 +220,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.3718202, y: 0.7195358}
+  m_Offset: {x: 0, y: -0.117732525}
+  m_Size: {x: 0.3718202, y: 0.5}
   m_Direction: 0
 --- !u!114 &1062734067
 MonoBehaviour:
@@ -242,6 +243,7 @@ MonoBehaviour:
   nextWaypointDistance: 1
   targetPlayerChance: 0.33
   targetDefenceChance: 0.33
+  spawnRate: 1
   player: {fileID: 0}
   engageDefences: 0
   engagePlayer: 0
@@ -302,7 +304,7 @@ GameObject:
   - component: {fileID: 5484063985252254297}
   - component: {fileID: 5484063985252254303}
   - component: {fileID: 5484063985252254296}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +363,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: -1311678827008438457, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -390,8 +392,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5484063986940497294}
   m_Bounds:
-    m_Center: {x: -0.0022442602, y: 0.046895474, z: 0}
-    m_Extent: {x: 0.047159117, y: 0.061419442, z: 0}
+    m_Center: {x: -0.0022442602, y: 0.04671353, z: 0}
+    m_Extent: {x: 0.047159117, y: 0.061601866, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5484063985301104268
@@ -404,7 +406,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063985301104258}
   - component: {fileID: 5484063985301104259}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KnightBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +435,7 @@ Transform:
   - {fileID: 5484063987120109504}
   - {fileID: 5484063986749909616}
   m_Father: {fileID: 3948869455063486582}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5484063985301104259
 Animator:
@@ -465,7 +467,7 @@ GameObject:
   - component: {fileID: 5484063985479263717}
   - component: {fileID: 5484063985479262747}
   - component: {fileID: 5484063985479263716}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,7 +526,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: -5449421275173218643, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -555,8 +557,8 @@ MonoBehaviour:
   - {fileID: 5484063985789006774}
   - {fileID: 5484063985564276806}
   m_Bounds:
-    m_Center: {x: -0.000019997358, y: 0.00070475787, z: 0}
-    m_Extent: {x: 0.07498002, y: 0.124295264, z: 0}
+    m_Center: {x: -0.000000029802322, y: -0.00000023841858, z: 0}
+    m_Extent: {x: 0.07500002, y: 0.12500027, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5484063985560617921
@@ -570,7 +572,7 @@ GameObject:
   - component: {fileID: 5484063985560617920}
   - component: {fileID: 5484063985560617926}
   - component: {fileID: 5484063985560617927}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,7 +631,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 1315292321065854, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -658,7 +660,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5484063985939020612}
   m_Bounds:
-    m_Center: {x: -0.00001306273, y: -0.05256478, z: 0}
+    m_Center: {x: -0.000013092533, y: -0.052564304, z: 0}
     m_Extent: {x: 0.025000017, y: 0.054999996, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -672,7 +674,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063985564276806}
   - component: {fileID: 5484063985564276805}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -711,7 +713,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -721,7 +723,7 @@ MonoBehaviour:
   - {x: -0.050121177, y: 0.064841524, z: 0}
   m_ShapePathHash: -592209007
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1374
+  m_InstanceId: 41924
 --- !u!1 &5484063985668990948
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +735,7 @@ GameObject:
   - component: {fileID: 5484063985668989979}
   - component: {fileID: 5484063985668989977}
   - component: {fileID: 5484063985668989978}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -792,7 +794,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 6
   m_Sprite: {fileID: -7959836382077081234, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -821,8 +823,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5484063987015261038}
   m_Bounds:
-    m_Center: {x: 0.0027733967, y: -0.007841729, z: 0}
-    m_Extent: {x: 0.046415202, y: 0.057733603, z: 0}
+    m_Center: {x: 0.0036822408, y: -0.00582828, z: 0}
+    m_Extent: {x: 0.055117957, y: 0.055461593, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5484063985671479777
@@ -836,7 +838,7 @@ GameObject:
   - component: {fileID: 5484063985671479776}
   - component: {fileID: 5484063985671479782}
   - component: {fileID: 5484063985671479783}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -895,7 +897,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 4
   m_Sprite: {fileID: -2027075112082207294, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -924,8 +926,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5484063986720042255}
   m_Bounds:
-    m_Center: {x: -0.00024179928, y: -0.054099433, z: 0}
-    m_Extent: {x: 0.025267646, y: 0.055133224, z: 0}
+    m_Center: {x: -0.00026862882, y: -0.054098956, z: 0}
+    m_Extent: {x: 0.025294445, y: 0.055133224, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5484063985671637231
@@ -938,7 +940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063985671637230}
   - component: {fileID: 5484063985671637229}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +976,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -987,7 +989,7 @@ MonoBehaviour:
   - {x: -0.023860479, y: 0.02872325, z: 0}
   m_ShapePathHash: -1250677764
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1392
+  m_InstanceId: 41946
 --- !u!1 &5484063985789006775
 GameObject:
   m_ObjectHideFlags: 0
@@ -998,7 +1000,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063985789006774}
   - component: {fileID: 5484063985789006773}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1035,7 +1037,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1045,7 +1047,7 @@ MonoBehaviour:
   - {x: -0.023702899, y: 0.059221245, z: 0}
   m_ShapePathHash: -2143004774
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1368
+  m_InstanceId: 41952
 --- !u!1 &5484063985811719693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,7 +1059,7 @@ GameObject:
   - component: {fileID: 5484063985811719692}
   - component: {fileID: 5484063985811719682}
   - component: {fileID: 5484063985811719683}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1116,7 +1118,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: -3590226807905960235, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1145,8 +1147,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5484063986385102575}
   m_Bounds:
-    m_Center: {x: 0.03208845, y: -0.000061970204, z: 0}
-    m_Extent: {x: 0.044999886, y: 0.05010762, z: 0}
+    m_Center: {x: 0.031989243, y: -0.000061970204, z: 0}
+    m_Extent: {x: 0.04509906, y: 0.05010762, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5484063985939020613
@@ -1159,7 +1161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063985939020612}
   - component: {fileID: 5484063985939020667}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1195,7 +1197,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1205,7 +1207,7 @@ MonoBehaviour:
   - {x: -0.0073334924, y: 0.02475032, z: 0}
   m_ShapePathHash: -2010684324
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1422
+  m_InstanceId: 41970
 --- !u!1 &5484063985990286292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,7 +1219,7 @@ GameObject:
   - component: {fileID: 5484063985990286283}
   - component: {fileID: 5484063985990286281}
   - component: {fileID: 5484063985990286282}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1276,7 +1278,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 7
   m_Sprite: {fileID: 8595541024071143459, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1305,8 +1307,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5484063985671637230}
   m_Bounds:
-    m_Center: {x: 0.06674811, y: 0.046673525, z: 0}
-    m_Extent: {x: 0.034772813, y: 0.062430445, z: 0}
+    m_Center: {x: 0.06424674, y: 0.047998358, z: 0}
+    m_Extent: {x: 0.033160895, y: 0.061105613, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5484063986385102568
@@ -1319,7 +1321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063986385102575}
   - component: {fileID: 5484063986385102574}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1356,7 +1358,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1370,7 +1372,7 @@ MonoBehaviour:
   - {x: 0.04003142, y: 0.063057505, z: 0}
   m_ShapePathHash: 44933365
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1398
+  m_InstanceId: 41986
 --- !u!1 &5484063986451989225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,7 +1383,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063986451989224}
   - component: {fileID: 5484063986451989231}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1420,7 +1422,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1433,7 +1435,7 @@ MonoBehaviour:
   - {x: -0.0570911, y: -0.010677316, z: 0}
   m_ShapePathHash: -1284839122
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1362
+  m_InstanceId: 41994
 --- !u!1 &5484063986529265535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,7 +1446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063986529265534}
   - component: {fileID: 5484063986529265533}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1481,7 +1483,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1491,7 +1493,7 @@ MonoBehaviour:
   - {x: -0.0018396609, y: 0.032192174, z: 0}
   m_ShapePathHash: 1935656559
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1404
+  m_InstanceId: 41996
 --- !u!1 &5484063986720042248
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,7 +1504,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063986720042255}
   - component: {fileID: 5484063986720042254}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1538,7 +1540,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1552,7 +1554,7 @@ MonoBehaviour:
   - {x: -0.0066433595, y: 0.025238847, z: 0}
   m_ShapePathHash: -1343255286
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1416
+  m_InstanceId: 42004
 --- !u!1 &5484063986749909617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,7 +1566,7 @@ GameObject:
   - component: {fileID: 5484063986749909616}
   - component: {fileID: 5484063986749909622}
   - component: {fileID: 5484063986749909623}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1623,7 +1625,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 9
   m_Sprite: {fileID: -2367061025308753401, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1652,8 +1654,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5484063986806466466}
   m_Bounds:
-    m_Center: {x: -0.26950544, y: 0.15958685, z: 0}
-    m_Extent: {x: 0.14341715, y: 0.062714, z: 0}
+    m_Center: {x: -0.27004552, y: 0.16316646, z: 0}
+    m_Extent: {x: 0.14530188, y: 0.056337245, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &5484063986806466467
@@ -1666,7 +1668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063986806466466}
   - component: {fileID: 5484063986806466465}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1702,7 +1704,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1720,7 +1722,7 @@ MonoBehaviour:
   - {x: 0.040547844, y: 0.018789932, z: 0}
   m_ShapePathHash: 277906195
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1410
+  m_InstanceId: 42016
 --- !u!1 &5484063986940497295
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,7 +1733,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063986940497294}
   - component: {fileID: 5484063986940497293}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1767,7 +1769,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1777,7 +1779,7 @@ MonoBehaviour:
   - {x: 0.010067787, y: 0.037559003, z: 0}
   m_ShapePathHash: 1087388327
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1380
+  m_InstanceId: 42022
 --- !u!1 &5484063987015261039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1788,7 +1790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5484063987015261038}
   - component: {fileID: 5484063987015261037}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bone_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1825,7 +1827,7 @@ MonoBehaviour:
   m_ShadowGroup: 0
   m_HasRenderer: 0
   m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
+  m_CastsShadows: 0
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 000000007b18d57f0945c6a6
   m_ShapePath:
@@ -1841,7 +1843,7 @@ MonoBehaviour:
   - {x: -0.04040892, y: 0.041520957, z: 0}
   m_ShapePathHash: 1173838690
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1386
+  m_InstanceId: 42028
 --- !u!1 &5484063987120109505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1853,7 +1855,7 @@ GameObject:
   - component: {fileID: 5484063987120109504}
   - component: {fileID: 5484063987120109510}
   - component: {fileID: 5484063987120109511}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Layer 11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1912,7 +1914,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1496955639
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 8
   m_Sprite: {fileID: -1966270840755833109, guid: 8c8f0f5cde91d5441a730d6e492ea8c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1945,6 +1947,88 @@ MonoBehaviour:
     m_Extent: {x: 0.034277983, y: 0.0430991, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+--- !u!1 &8740188240632063378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7834496056837491405}
+  - component: {fileID: 4539997713632311962}
+  m_Layer: 13
+  m_Name: enemy-icon
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7834496056837491405
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8740188240632063378}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3948869455063486582}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &4539997713632311962
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8740188240632063378}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -482314105
+  m_SortingLayer: 2
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 9101557f9e0a27846b085d17ea0a2ca6, type: 3}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1001 &7651524456448974387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1952,6 +2036,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 885943120}
     m_Modifications:
+    - target: {fileID: 2753075787041986945, guid: aa281cc218d06ca4ebd4c6fa1cfe1de9, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2753075787041986946, guid: aa281cc218d06ca4ebd4c6fa1cfe1de9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2047,6 +2135,14 @@ PrefabInstance:
     - target: {fileID: 2753075787270096015, guid: aa281cc218d06ca4ebd4c6fa1cfe1de9, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753075787270096015, guid: aa281cc218d06ca4ebd4c6fa1cfe1de9, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753075788612283645, guid: aa281cc218d06ca4ebd4c6fa1cfe1de9, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa281cc218d06ca4ebd4c6fa1cfe1de9, type: 3}
