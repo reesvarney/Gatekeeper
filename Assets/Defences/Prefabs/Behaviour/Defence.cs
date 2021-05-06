@@ -138,27 +138,29 @@ public class Defence : MonoBehaviour
     }
 
     public void onDestroy(Vector3 location){
-        var destroyedInstance = gameInstances[location];
-        var instanceBehaviour = gameInstances[location].gameObject.GetComponent<gameInstanceBehaviour>();
-        StopCoroutine(instanceBehaviour.constantLoop);
+        if(gameInstances.ContainsKey(location)){
+            var destroyedInstance = gameInstances[location];
+            var instanceBehaviour = gameInstances[location].gameObject.GetComponent<gameInstanceBehaviour>();
+            StopCoroutine(instanceBehaviour.constantLoop);
 
-        foreach(KeyValuePair<string, IEnumerator> entry in instanceBehaviour.targets)
-        {
-            // welp we cant actually use this key because you cant search for gameobjects with it
-            var affectedObject = GameObject.Find(entry.Key);
-            StopCoroutine(entry.Value);
-            switch(affectedObject.tag){
-                case "Enemy":
-                    enemyLeaveEffect(affectedObject);
-                    break;
-                case "Player":
-                    playerLeaveEffect(affectedObject);
-                    break;
+            foreach(KeyValuePair<string, IEnumerator> entry in instanceBehaviour.targets)
+            {
+                // welp we cant actually use this key because you cant search for gameobjects with it
+                var affectedObject = GameObject.Find(entry.Key);
+                StopCoroutine(entry.Value);
+                switch(affectedObject.tag){
+                    case "Enemy":
+                        enemyLeaveEffect(affectedObject);
+                        break;
+                    case "Player":
+                        playerLeaveEffect(affectedObject);
+                        break;
+                }
             }
+            Destroy(destroyedInstance.gameObject);
+            build.Controller.removeDefenceTile(location);
+            gameInstances.Remove(location);
         }
-        Destroy(destroyedInstance.gameObject);
-        build.Controller.removeDefenceTile(location);
-        gameInstances.Remove(location);
     }
 
     public gameInstance _onBuild(Vector3Int tilePos, Vector3 worldPos, bool isOnWall){

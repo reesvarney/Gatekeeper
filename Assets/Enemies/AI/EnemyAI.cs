@@ -12,11 +12,12 @@ public class EnemyAI : MonoBehaviour
     public int damage = 5;
     public float nextWaypointDistance = 1f;
 
+    public float avoidDistance = 1f;
+    public LayerMask avoidable;
+
     public float targetPlayerChance = 0.33f;
     public float targetDefenceChance = 0.33f;
     
-    public int spawnRate = 1;
-
     Animator animator;
 
     Path path;
@@ -62,7 +63,7 @@ public class EnemyAI : MonoBehaviour
             engagePlayer = true;
         }
 
-        InvokeRepeating("checkAttack", 5f, 5f);
+        InvokeRepeating("checkAttack", 3f, 3f);
     }
 
     void OnPathComplete(Path newPath){
@@ -177,12 +178,11 @@ public class EnemyAI : MonoBehaviour
     }
 
     void attackCycle(){
-        if(currentTarget == null){
+        if(currentTarget.gameObject == null){
             disengageObject();
         } else {
             bool destroyed = currentTarget.dealDamage(damage);
             if(destroyed){
-                Debug.Log("Destroyed");
                 disengageObject();
             }
         }
@@ -190,6 +190,10 @@ public class EnemyAI : MonoBehaviour
 
     void moveOnPath(){
         Vector2 intendedDirection = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        if(checkForObstacles(intendedDirection)){
+            intendedDirection = avoidDirection(intendedDirection);
+        }
+
         Vector2 intendedForce = intendedDirection * currentSpeed * Time.deltaTime;
         rb.AddForce(intendedForce);
 
@@ -197,6 +201,44 @@ public class EnemyAI : MonoBehaviour
         if(currentWaypointDistance < nextWaypointDistance){
             currentWaypoint ++;
         }
+    }
+
+    bool checkForObstacles(Vector2 intendedDirection){
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, intendedDirection, avoidDistance, avoidable);
+
+        if(hit.collider != null){
+            return true;
+        }
+
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Quaternion.Euler(15, 0, 0) * intendedDirection, avoidDistance, avoidable);
+        if(hitLeft.collider != null){
+            return true;
+        }
+
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Quaternion.Euler(-15, 0, 0) * intendedDirection, avoidDistance, avoidable);
+        if(hitRight.collider != null){
+            return true;
+        }
+
+        return false;
+
+    }
+
+    Vector2 avoidDirection(Vector2 intendedDirection){
+        Vector2 angleLeft = Quaternion.Euler(70, 0, 0) * intendedDirection;
+        Vector2 angleRight = Quaternion.Euler(-70, 0, 0) * intendedDirection;
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, angleLeft, avoidDistance, avoidable);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, angleRight, avoidDistance, avoidable);
+
+        if(hitRight.collider == null){
+            return Quaternion.Euler(-20, 0, 0) * angleRight;
+        }
+
+        if(hitLeft.collider == null){
+            return Quaternion.Euler(20, 0, 0) * angleLeft;
+        }
+
+        return intendedDirection;
     }
 
     // Update is called once per frame
