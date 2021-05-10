@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class playerAttack : MonoBehaviour
 {
-
+    public LayerMask targetLayers;
     public float attackRange = 5f;
     public int damage = 10;
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public class playerAttack : MonoBehaviour
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
             Vector2 mouseWorldPos2D = new Vector2(mouseWorldPos.x, mouseWorldPos.y);
-            RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos2D, Vector2.zero);
+            RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos2D, Vector2.zero, targetLayers);
             
             if (hit.collider != null) {
                 if(hit.collider.gameObject.tag == "Enemy" && Vector2.Distance(gameObject.transform.position, hit.collider.gameObject.transform.position) < attackRange){

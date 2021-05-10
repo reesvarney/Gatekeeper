@@ -9,6 +9,7 @@ TagManager:
   - Objective
   - Walls
   - Secondary Cameras
+  - Magic
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Objective
   - PlayerClips
   - Minimap Only
-  - 
+  - Minimap Ignore
   - 
   - 
   - 
@@ -63,4 +64,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 249461609
+    locked: 0
+  - name: Particles
+    uniqueID: 1962474987
     locked: 0

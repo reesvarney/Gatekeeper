@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class health : MonoBehaviour
 {
     public int baseHealth = 100;
     public int currentHealth;
+    public UnityEvent destroyEvent;
 
     public void setHealth(int healthSet){
         if(healthSet <= 0){
             destroy();
         }
         if(healthSet != currentHealth){
-            onHealthChange(healthSet);
+            gameObject.SendMessage("onHealthChange", healthSet);
         }
         currentHealth = healthSet;
     }
@@ -30,26 +32,13 @@ public class health : MonoBehaviour
     }
 
     public void destroy(){
-        onDestroy();
-    }
-
-    public virtual void onHealthChange(int newHealth){
-
-    }
-
-    public virtual void onDestroy(){
-
+        gameObject.SendMessage("onDestroy");
+        destroyEvent.Invoke();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         setHealth(baseHealth);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

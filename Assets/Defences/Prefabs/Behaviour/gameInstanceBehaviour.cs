@@ -22,8 +22,10 @@ public class gameInstanceBehaviour : MonoBehaviour
             yield return new WaitForSeconds(defencePrefab.effectRate);
             var defence = detected.transform.parent.gameObject.GetComponent<Defence>();
             Vector3 defencePos = detected.transform.position;
-            var defenceInstance = defence.gameInstances[defencePos];
-            defencePrefab.defenceEffect(defenceInstance);
+            if(defence.gameInstances.ContainsKey(defencePos)){
+                var defenceInstance = defence.gameInstances[defencePos];
+                defencePrefab.defenceEffect(defenceInstance);
+            }
         }
     }
 

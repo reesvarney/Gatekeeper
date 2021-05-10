@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Pathfinding;
 
@@ -41,12 +42,19 @@ public class EnemyAI : MonoBehaviour
     private dynamic currentTarget;
     private GameObject targetGameObject;
 
+    private bool avoiding = false;
+    private Vector2 intendedDirection;
+    private Vector2 avoidingDirection;
+
+    private int enemyInstanceID;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = gameObject.GetComponentInChildren(typeof(Animator)) as Animator;
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        enemyInstanceID = gameObject.GetInstanceID();
 
         currentTarget = ultimateTarget;
 
@@ -64,6 +72,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         InvokeRepeating("checkAttack", 3f, 3f);
+        InvokeRepeating("checkForObstacles", 1f, 1f);
     }
 
     void OnPathComplete(Path newPath){
@@ -189,9 +198,10 @@ public class EnemyAI : MonoBehaviour
     }
 
     void moveOnPath(){
-        Vector2 intendedDirection = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        if(checkForObstacles(intendedDirection)){
-            intendedDirection = avoidDirection(intendedDirection);
+        intendedDirection = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+
+        if(avoiding){
+            intendedDirection = avoidingDirection;
         }
 
         Vector2 intendedForce = intendedDirection * currentSpeed * Time.deltaTime;
@@ -203,39 +213,52 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    bool checkForObstacles(Vector2 intendedDirection){
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, intendedDirection, avoidDistance, avoidable);
+    bool checkForObstacles(){
+        bool hit = filterSelfRaycast(Physics2D.RaycastAll(rb.position, intendedDirection, avoidDistance, avoidable));
 
-        if(hit.collider != null){
+        if(hit){
+            getAvoidDirection();
             return true;
         }
 
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Quaternion.Euler(15, 0, 0) * intendedDirection, avoidDistance, avoidable);
-        if(hitLeft.collider != null){
-            return true;
-        }
-
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Quaternion.Euler(-15, 0, 0) * intendedDirection, avoidDistance, avoidable);
-        if(hitRight.collider != null){
-            return true;
-        }
-
+        avoiding = false;
         return false;
-
     }
 
-    Vector2 avoidDirection(Vector2 intendedDirection){
-        Vector2 angleLeft = Quaternion.Euler(70, 0, 0) * intendedDirection;
-        Vector2 angleRight = Quaternion.Euler(-70, 0, 0) * intendedDirection;
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, angleLeft, avoidDistance, avoidable);
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, angleRight, avoidDistance, avoidable);
+    bool filterSelfRaycast(RaycastHit2D[] hits){
+        var filtered = hits.Where(c => c.collider.gameObject.GetInstanceID() != enemyInstanceID).ToArray();
+        return filtered.Length != 0;
+    }
 
-        if(hitRight.collider == null){
-            return Quaternion.Euler(-20, 0, 0) * angleRight;
+    Vector2 getAvoidDirection(){
+        Vector2 angleLeft = Quaternion.Euler(0, 0, 70) * intendedDirection;
+        Vector2 angleRight = Quaternion.Euler(0, 0, -70) * intendedDirection;
+        bool hitLeft = filterSelfRaycast(Physics2D.RaycastAll(rb.position, angleLeft, avoidDistance, avoidable));
+        bool hitRight = filterSelfRaycast(Physics2D.RaycastAll(rb.position, angleRight, avoidDistance, avoidable));
+        bool ignoreRight = false;
+
+        if(!hitRight && !hitLeft){
+            if(Random.value < 0.5){
+                ignoreRight = true;
+            };
+        };
+
+        if(!hitRight && !ignoreRight){
+            Debug.DrawRay(rb.position, angleRight, Color.blue, 2, false);
+            avoiding = true;
+            avoidingDirection = angleRight;
+            return angleRight;
+        } else {
+            Debug.DrawRay(rb.position, angleRight, Color.red, 2, false);
         }
 
-        if(hitLeft.collider == null){
-            return Quaternion.Euler(20, 0, 0) * angleLeft;
+        if(!hitLeft){
+            Debug.DrawRay(rb.position, angleLeft, Color.blue, 2, false);
+            avoiding = true;
+            avoidingDirection = angleLeft;
+            return angleLeft;
+        } else {
+            Debug.DrawRay(rb.position, angleLeft, Color.red, 2, false);
         }
 
         return intendedDirection;
@@ -254,9 +277,6 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("isMoving", true);
         } else {
             animator.SetBool("isMoving", false);
-            if(!engaged){
-                checkAttack();
-            }
         }
     }
 }

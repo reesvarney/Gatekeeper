@@ -35,10 +35,15 @@ public class build : MonoBehaviour
         if(buildModeEnabled == true){
             checkTile();
 
-            if(Input.GetMouseButtonDown(0) && canBuildOnTile){
+            if(Input.GetMouseButtonDown(0) && canBuildOnTile && !globalGameInstances.ContainsKey(currentTile)){
                 defenceTiles.SetTile(currentTile, currentDefenceType.tile);
+                var magicLevel = GetComponent<playerMagic>().spend(currentDefenceType.cost);
                 var newGameInstance = currentDefenceType._onBuild(currentTile, defenceTiles.CellToWorld(currentTile), wallTiles.HasTile(currentTile));
                 globalGameInstances.Add(newGameInstance.worldPos, newGameInstance);
+                if(magicLevel < currentDefenceType.cost){
+                    buildModeEnabled = false;
+                    setBuildMode();
+                }
             }
         }
         if(sellModeEnabled == true){
@@ -53,12 +58,21 @@ public class build : MonoBehaviour
     }
 
     public void toggleBuildMode(Defence defenceType){
-        if(defenceType != currentDefenceType){
-            currentDefenceType = defenceType;
-            buildModeEnabled = true;
+        if(GetComponent<playerMagic>().canAfford(defenceType.cost)){
+            if(defenceType != currentDefenceType){
+                currentDefenceType = defenceType;
+                buildModeEnabled = true;
+            } else {
+                buildModeEnabled = !buildModeEnabled;
+            }
         } else {
-            buildModeEnabled = !buildModeEnabled;
+            buildModeEnabled = false;
         }
+
+        setBuildMode();
+    }
+
+    public void setBuildMode(){
         if(buildModeEnabled == false){
             defencePreviewTiles.SetTile(currentTile, null);
             highlightTiles.SetTile(currentTile, null);

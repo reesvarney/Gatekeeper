@@ -12,14 +12,14 @@ public class playerHealth : health
         
     }
 
-    public override void onHealthChange(int healthSet){
+    void onHealthChange(int healthSet){
         if(healthSet > slider.maxValue){
             slider.maxValue = healthSet;
         }
         slider.value = healthSet;
     }
 
-    public override void onDestroy(){
+    void onDestroy(){
         // End game
     }
 }
