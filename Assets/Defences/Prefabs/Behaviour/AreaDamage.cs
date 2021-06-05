@@ -9,4 +9,9 @@ public class AreaDamage : Defence
     public override void enemyEffect(GameObject detected){
       detected.GetComponent<health>().dealDamage(damage);
     }
+
+    public override void onUpgrade(){
+      damage += 1;
+    }
+
 }

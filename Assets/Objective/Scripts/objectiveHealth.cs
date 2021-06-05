@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class playerHealth : health
+public class objectiveHealth : health
 {
     public Slider slider;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     void onHealthChange(int healthSet){
         if(healthSet > slider.maxValue){
@@ -20,7 +15,6 @@ public class playerHealth : health
     }
 
     void onDestroy(){
-        // End game
         FindObjectOfType<gameController>().endGame();
     }
 }

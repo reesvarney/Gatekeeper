@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class playerMagic : MonoBehaviour
 {
-    public int level { get; private set; } = 0;
+    public int level = 0;
     public int max = 150;
     public Slider slider;
     public List<GameObject> defences = new List<GameObject>();
     public List<GameObject> defenceIcons = new List<GameObject>();
+    public TextMeshProUGUI magicText;
 
     // Start is called before the first frame update
     void Start()
     {
         slider.value = level;
+        magicText.text = level.ToString();
         slider.maxValue = max;
     }
 
@@ -28,7 +31,7 @@ public class playerMagic : MonoBehaviour
         }
     }
 
-    void set(int levelSet){
+    public void set(int levelSet){
         if(levelSet > max){
             levelSet = max;
         }
@@ -36,6 +39,7 @@ public class playerMagic : MonoBehaviour
             slider.maxValue = levelSet;
         }
         slider.value = levelSet;
+        magicText.text = levelSet.ToString();
         level = levelSet;
         sendMagicEvent();
     }

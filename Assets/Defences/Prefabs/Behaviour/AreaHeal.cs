@@ -10,6 +10,10 @@ public class AreaHeal : Defence
       detected.GetComponent<health>().heal(healAmount);
     }
 
+    public override void onUpgrade(){
+      healAmount += 1;
+    }
+
     public override void defenceEffect(gameInstance detected){
       if(detected.health != detected.levelHealth){
         detected.heal(healAmount);

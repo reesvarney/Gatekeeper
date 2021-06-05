@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 84030b00752f372459c9408878ff2297
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - tile: {instanceID: 0}
+  - healthBar: {instanceID: 0}
+  - magicPrefab: {fileID: 8799915922457736770, guid: 2d2cfcce675b0d544bf1d66d6986b672, type: 3}
+  executionOrder: 100
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

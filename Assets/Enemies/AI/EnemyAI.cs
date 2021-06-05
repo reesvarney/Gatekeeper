@@ -115,6 +115,8 @@ public class EnemyAI : MonoBehaviour
             if(closestDefence != null){
                 var defence = closestDefence.transform.parent.gameObject.GetComponent<Defence>();
                 Vector3 defencePos = closestDefence.transform.position;
+                defencePos.x -= 0.5f;
+                defencePos.y -= 0.5f;
                 if(defence.gameInstances.ContainsKey(defencePos)){
                     var defenceInstance = defence.gameInstances[defencePos];
                     if(!defenceInstance.isOnWall || canTargetHigh){

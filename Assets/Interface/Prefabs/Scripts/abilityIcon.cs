@@ -2,46 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class abilityIcon : MonoBehaviour
 {
     public Sprite icon;
-    public Slider slider;
-
-    public bool isCooldown = false;
-    public float cooldownValue;
-
-
+    public Image image;
+    public Image border;
+    public string abilityName;
+    public string key;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI keyText;
+    
     // Start is called before the first frame update
     void Start()
     {
-        slider = gameObject.GetComponent<Slider>();
+        image.sprite = icon;
+        nameText.text = abilityName;
+        keyText.text = key;
     }
 
-    public void setCooldown(){
-        isCooldown = true;
-    }
 
-    public void setAvailable(bool isAvailable){
-        if(isAvailable){
-            
+    public void setActive(bool active){
+        if(active){
+            border.color = new Color32(255,255,255,100);
         } else {
-
+            border.color = new Color32(0,0,0,100);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isCooldown){
-            cooldownValue -= Time.deltaTime;
-            slider.value = cooldownValue;
 
-            if (cooldownValue <= 0)
-            {       
-                cooldownValue = 0;
-                isCooldown = false;     
-            }
-        }
     }
 }
